@@ -4,20 +4,20 @@
  * @flow
  */
 
-'use strict';
+'use strict'
 
-import React from 'react';
-import PropTypes from 'prop-types';
-import Moment from 'moment';
-import { ActivityIndicator, Platform, Image, StyleSheet } from 'react-native';
-import { Text, TouchableOpacity, View } from 'react-native-common';
+import React from 'react'
+import PropTypes from 'prop-types'
+import Moment from 'moment'
+import { ActivityIndicator, Platform, Image, StyleSheet } from 'react-native'
+import { Text, TouchableOpacity, View } from 'react-native-common'
 
-import defaultStyle from '../../style';
-import { weekDayNames } from '../../dateutils';
+import defaultStyle from '../../style'
+import { weekDayNames } from '../../dateutils'
 import {
   CHANGE_MONTH_LEFT_ARROW,
   CHANGE_MONTH_RIGHT_ARROW
-} from '../../testIDs';
+} from '../../testIDs'
 
 class CalendarHeader extends React.Component {
   static propTypes = {
@@ -32,136 +32,153 @@ class CalendarHeader extends React.Component {
     weekNumbers: PropTypes.bool,
     onPressArrowLeft: PropTypes.func,
     onPressArrowRight: PropTypes.func
-  };
+  }
 
   static defaultProps = {
-    monthFormat: 'MMMM YYYY',
-  };
+    monthFormat: 'MMMM YYYY'
+  }
 
   constructor(props) {
-    super(props);
-    this.style = styleConstructor(props.theme, props);
-    this.addMonth = this.addMonth.bind(this);
-    this.substractMonth = this.substractMonth.bind(this);
-    this.onPressLeft = this.onPressLeft.bind(this);
-    this.onPressRight = this.onPressRight.bind(this);
+    super(props)
+    this.style = styleConstructor(props.theme, props)
+    this.addMonth = this.addMonth.bind(this)
+    this.substractMonth = this.substractMonth.bind(this)
+    this.onPressLeft = this.onPressLeft.bind(this)
+    this.onPressRight = this.onPressRight.bind(this)
   }
 
   addMonth() {
-    this.props.addMonth(1);
+    this.props.addMonth(1)
   }
 
   substractMonth() {
-    this.props.addMonth(-1);
+    this.props.addMonth(-1)
   }
 
   shouldComponentUpdate(nextProps) {
     if (
-      nextProps.month.format('YYYY MM') !==
-      this.props.month.format('YYYY MM')
+      nextProps.month.format('YYYY MM') !== this.props.month.format('YYYY MM')
     ) {
-      return true;
+      return true
     }
     if (nextProps.showIndicator !== this.props.showIndicator) {
-      return true;
+      return true
     }
     if (nextProps.hideDayNames !== this.props.hideDayNames) {
-      return true;
+      return true
     }
-    return false;
+    return false
   }
 
   onPressLeft() {
-    const {onPressArrowLeft} = this.props;
+    const { onPressArrowLeft } = this.props
     if (typeof onPressArrowLeft === 'function') {
-      return onPressArrowLeft(this.substractMonth);
+      return onPressArrowLeft(this.substractMonth)
     }
-    return this.substractMonth();
+    return this.substractMonth()
   }
 
   onPressRight() {
-    const {onPressArrowRight} = this.props;
+    const { onPressArrowRight } = this.props
     if (typeof onPressArrowRight === 'function') {
-      return onPressArrowRight(this.addMonth);
+      return onPressArrowRight(this.addMonth)
     }
-    return this.addMonth();
+    return this.addMonth()
   }
 
   render() {
-    let leftArrow = <View />;
-    let rightArrow = <View />;
-    let weekDaysNames = weekDayNames(this.props.type, this.props.firstDay);
+    let leftArrow = <View />
+    let rightArrow = <View />
+    let weekDaysNames = weekDayNames(this.props.type, this.props.firstDay)
     if (!this.props.hideArrows) {
       leftArrow = (
         <TouchableOpacity
           onPress={this.onPressLeft}
           style={this.style.arrow}
-          hitSlop={{left: 20, right: 20, top: 20, bottom: 20}}
+          hitSlop={{ left: 20, right: 20, top: 20, bottom: 20 }}
           testID={CHANGE_MONTH_LEFT_ARROW}
         >
-          {this.props.renderArrow
-            ? this.props.renderArrow('left')
-            : <Image
-                source={require('../img/previous.png')}
-                style={this.style.arrowImage}
-              />}
+          {this.props.renderArrow ? (
+            this.props.renderArrow('left')
+          ) : (
+            <Image
+              source={require('../img/previous.png')}
+              style={this.style.arrowImage}
+            />
+          )}
         </TouchableOpacity>
-      );
+      )
       rightArrow = (
         <TouchableOpacity
           onPress={this.onPressRight}
           style={this.style.arrow}
-          hitSlop={{left: 20, right: 20, top: 20, bottom: 20}}
+          hitSlop={{ left: 20, right: 20, top: 20, bottom: 20 }}
           testID={CHANGE_MONTH_RIGHT_ARROW}
         >
-          {this.props.renderArrow
-            ? this.props.renderArrow('right')
-            : <Image
-                source={require('../img/next.png')}
-                style={this.style.arrowImage}
-              />}
+          {this.props.renderArrow ? (
+            this.props.renderArrow('right')
+          ) : (
+            <Image
+              source={require('../img/next.png')}
+              style={this.style.arrowImage}
+            />
+          )}
         </TouchableOpacity>
-      );
+      )
     }
-    let indicator;
+    let indicator
     if (this.props.showIndicator) {
-      indicator = <ActivityIndicator />;
+      indicator = <ActivityIndicator />
     }
     return (
       <View>
         <View style={this.style.header}>
           {leftArrow}
           <View style={{ flexDirection: 'row' }}>
-            <Text allowFontScaling={false} style={this.style.monthText} accessibilityTraits="header">
+            <Text
+              allowFontScaling={false}
+              style={this.style.monthText}
+              accessibilityTraits="header"
+            >
               {this.props.month.format(this.props.monthFormat)}
             </Text>
             {indicator}
           </View>
           {rightArrow}
         </View>
-        {
-          !this.props.hideDayNames &&
+        {!this.props.hideDayNames && (
           <View style={this.style.week}>
-            {this.props.weekNumbers && <Text allowFontScaling={false} style={this.style.dayHeader} />}
+            {this.props.weekNumbers && (
+              <Text allowFontScaling={false} style={this.style.dayHeader} />
+            )}
             {weekDaysNames.map((day, idx) => (
-              <Text allowFontScaling={false} key={idx} accessible={false} style={this.style.dayHeader} numberOfLines={1} importantForAccessibility="no">{day}</Text>
+              <Text
+                allowFontScaling={false}
+                key={idx}
+                accessible={false}
+                style={this.style.dayHeader}
+                numberOfLines={1}
+                importantForAccessibility="no"
+              >
+                {day}
+              </Text>
             ))}
           </View>
-        }
+        )}
       </View>
-    );
+    )
   }
 }
 
-const STYLESHEET_ID = 'stylesheet.calendar.header';
+const STYLESHEET_ID = 'stylesheet.calendar.header'
 
-function styleConstructor(theme = {}, {rtl, type}) {
-  const appStyle = {...defaultStyle, ...theme};
+function styleConstructor(theme = {}, { rtl, type }) {
+  const appStyle = { ...defaultStyle, ...theme }
   if (rtl === undefined) {
     if (type === 'jalaali') {
-      rtl = true;
+      rtl = true
     } else {
-      rtl = false;
+      rtl = false
     }
   }
   return StyleSheet.create({
@@ -183,7 +200,7 @@ function styleConstructor(theme = {}, {rtl, type}) {
       padding: 10
     },
     arrowImage: {
-      transform: rtl ? [{ rotate: '180deg'}] : undefined,
+      transform: rtl ? [{ rotate: '180deg' }] : undefined,
       ...Platform.select({
         ios: {
           tintColor: appStyle.arrowColor
@@ -205,10 +222,11 @@ function styleConstructor(theme = {}, {rtl, type}) {
       textAlign: 'center',
       fontSize: appStyle.textDayHeaderFontSize,
       fontFamily: appStyle.textDayHeaderFontFamily,
-      color: appStyle.textSectionTitleColor
+      color: appStyle.textSectionTitleColor,
+      fontWeight: appStyle.textSectionTitleFontWeight
     },
     ...(theme[STYLESHEET_ID] || {})
-  });
+  })
 }
 
-module.exports = CalendarHeader;
+module.exports = CalendarHeader
