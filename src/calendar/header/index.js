@@ -88,7 +88,24 @@ class CalendarHeader extends React.Component {
 
   render() {
     let leftArrow = <View />
-    let rightArrow = <View />
+    let rightArrow = (
+      <TouchableOpacity
+        onPress={this.onPressRight}
+        style={this.style.arrow}
+        hitSlop={{ left: 20, right: 20, top: 20, bottom: 20 }}
+        testID={CHANGE_MONTH_RIGHT_ARROW}
+      >
+        {this.props.renderArrow ? (
+          this.props.renderArrow('right')
+        ) : (
+          <Image
+            source={require('../img/next.png')}
+            style={this.style.arrowImage}
+          />
+        )}
+      </TouchableOpacity>
+    )
+
     let weekDaysNames = weekDayNames(this.props.type, this.props.firstDay)
     if (!this.props.hideArrows) {
       leftArrow = (
@@ -103,23 +120,6 @@ class CalendarHeader extends React.Component {
           ) : (
             <Image
               source={require('../img/previous.png')}
-              style={this.style.arrowImage}
-            />
-          )}
-        </TouchableOpacity>
-      )
-      rightArrow = (
-        <TouchableOpacity
-          onPress={this.onPressRight}
-          style={this.style.arrow}
-          hitSlop={{ left: 20, right: 20, top: 20, bottom: 20 }}
-          testID={CHANGE_MONTH_RIGHT_ARROW}
-        >
-          {this.props.renderArrow ? (
-            this.props.renderArrow('right')
-          ) : (
-            <Image
-              source={require('../img/next.png')}
               style={this.style.arrowImage}
             />
           )}
