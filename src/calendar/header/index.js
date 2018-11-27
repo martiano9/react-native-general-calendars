@@ -72,6 +72,12 @@ class CalendarHeader extends React.Component {
     if (nextProps.hideArrows !== this.props.hideArrows) {
       return true
     }
+    if (nextProps.hideLeftArrow !== this.props.hideLeftArrow) {
+      return true
+    }
+    if (nextProps.hideRightArrow !== this.props.hideRightArrow) {
+      return true
+    }
     return false
   }
 
