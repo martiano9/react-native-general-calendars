@@ -114,8 +114,8 @@ class CalendarHeader extends React.Component {
     leftArrow = (
       <TouchableOpacity
         onPress={this.onPressLeft}
-        disabled={hideArrows}
-        style={[this.style.arrow, {opacity: hideArrows ? 0.4 : 1, marginRight: 40}]}
+        disabled={this.props.hideArrows}
+        style={[this.style.arrow, {opacity: this.props.hideArrows ? 0.4 : 1, marginRight: 40}]}
         hitSlop={{ left: 20, right: 20, top: 20, bottom: 20 }}
         testID={CHANGE_MONTH_LEFT_ARROW}
       >
