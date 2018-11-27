@@ -23,6 +23,8 @@ class CalendarHeader extends React.Component {
   static propTypes = {
     theme: PropTypes.object,
     hideArrows: PropTypes.bool,
+    hideLeftArrow: PropTypes.bool,
+    hideRightArrow: PropTypes.bool,
     month: PropTypes.instanceOf(Moment),
     addMonth: PropTypes.func,
     showIndicator: PropTypes.bool,
@@ -90,11 +92,13 @@ class CalendarHeader extends React.Component {
   }
 
   render() {
-    let leftArrow = <View />
+    const hideLeft = this.props.hideArrows || this.props.hideLeftArrow
+    const hideRight = this.props.hideArrows || this.props.hideRightArrow
     let rightArrow = (
       <TouchableOpacity
         onPress={this.onPressRight}
-        style={this.style.arrow}
+        disabled={hideRight}
+        style={[this.style.arrow, {opacity: hideRight ? 0.4 : 1}]}
         hitSlop={{ left: 20, right: 20, top: 20, bottom: 20 }}
         testID={CHANGE_MONTH_RIGHT_ARROW}
       >
@@ -111,11 +115,11 @@ class CalendarHeader extends React.Component {
 
     let weekDaysNames = weekDayNames(this.props.type, this.props.firstDay)
 
-    leftArrow = (
+    let leftArrow = (
       <TouchableOpacity
         onPress={this.onPressLeft}
-        disabled={this.props.hideArrows}
-        style={[this.style.arrow, {opacity: this.props.hideArrows ? 0.4 : 1, marginRight: 40}]}
+        disabled={hideLeft}
+        style={[this.style.arrow, {opacity: hideLeft ? 0.4 : 1, marginRight: 35}]}
         hitSlop={{ left: 20, right: 20, top: 20, bottom: 20 }}
         testID={CHANGE_MONTH_LEFT_ARROW}
       >
@@ -200,7 +204,7 @@ function styleConstructor(theme = {}, { rtl, type }) {
       fontFamily: appStyle.textMonthFontFamily,
       fontWeight: appStyle.textMonthFontWeight,
       color: appStyle.monthTextColor,
-      margin: 10
+      marginVertical: 10
     },
     arrow: {
       padding: 10

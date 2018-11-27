@@ -56,6 +56,9 @@ class Calendar extends React.Component {
 
     // Hide month navigation arrows. Default = false
     hideArrows: PropTypes.bool,
+    hideLeftArrow: PropTypes.bool,
+    hideRightArrow: PropTypes.bool,
+
     // Display loading indicador. Default = false
     displayLoadingIndicator: PropTypes.bool,
     // Do not show days of other months in month page. Default = false
@@ -360,6 +363,8 @@ class Calendar extends React.Component {
           theme={this.props.theme}
           rtl={this.props.rtl}
           hideArrows={this.props.hideArrows}
+          hideLeftArrow={this.props.hideLeftArrow}
+          hideRightArrow={this.props.hideRightArrow}
           month={this.state.currentMonth}
           addMonth={this.addMonth}
           gotoMonth={this.gotoMonth}
