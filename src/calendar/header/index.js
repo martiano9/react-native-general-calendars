@@ -201,7 +201,7 @@ function styleConstructor(theme = {}, { rtl, type }) {
     header: {
       flexDirection: rtl ? 'row-reverse' : 'row',
       justifyContent: 'space-between',
-      paddingLeft: 15,
+      paddingLeft: 10,
       paddingRight: 10,
       alignItems: 'center'
     },
