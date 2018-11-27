@@ -110,25 +110,26 @@ class CalendarHeader extends React.Component {
     )
 
     let weekDaysNames = weekDayNames(this.props.type, this.props.firstDay)
-    if (!this.props.hideArrows) {
-      leftArrow = (
-        <TouchableOpacity
-          onPress={this.onPressLeft}
-          style={this.style.arrow}
-          hitSlop={{ left: 20, right: 20, top: 20, bottom: 20 }}
-          testID={CHANGE_MONTH_LEFT_ARROW}
-        >
-          {this.props.renderArrow ? (
-            this.props.renderArrow('left')
-          ) : (
-            <Image
-              source={require('../img/previous.png')}
-              style={this.style.arrowImage}
-            />
-          )}
-        </TouchableOpacity>
-      )
-    }
+
+    leftArrow = (
+      <TouchableOpacity
+        onPress={this.onPressLeft}
+        disabled={hideArrows}
+        style={[this.style.arrow, {opacity: hideArrows ? 0.4 : 1, marginRight: 40}]}
+        hitSlop={{ left: 20, right: 20, top: 20, bottom: 20 }}
+        testID={CHANGE_MONTH_LEFT_ARROW}
+      >
+        {this.props.renderArrow ? (
+          this.props.renderArrow('left')
+        ) : (
+          <Image
+            source={require('../img/previous.png')}
+            style={this.style.arrowImage}
+          />
+        )}
+      </TouchableOpacity>
+    )
+
     let indicator
     if (this.props.showIndicator) {
       indicator = <ActivityIndicator />
@@ -136,7 +137,6 @@ class CalendarHeader extends React.Component {
     return (
       <View>
         <View style={this.style.header}>
-          {leftArrow}
           <View style={{ flexDirection: 'row' }}>
             <Text
               allowFontScaling={false}
@@ -147,7 +147,10 @@ class CalendarHeader extends React.Component {
             </Text>
             {indicator}
           </View>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          {leftArrow}
           {rightArrow}
+          </View>
         </View>
         {!this.props.hideDayNames && (
           <View style={this.style.week}>
@@ -188,7 +191,7 @@ function styleConstructor(theme = {}, { rtl, type }) {
     header: {
       flexDirection: rtl ? 'row-reverse' : 'row',
       justifyContent: 'space-between',
-      paddingLeft: 10,
+      paddingLeft: 15,
       paddingRight: 10,
       alignItems: 'center'
     },
